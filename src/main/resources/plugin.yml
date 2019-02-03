@@ -2,4 +2,8 @@ name: Baglisted
 main: baglisted.Main
 version: 1.0 (alpha)
 commands:
+  gm:
+    description: sets your gamemode
+    usage: /<command>
+
 
