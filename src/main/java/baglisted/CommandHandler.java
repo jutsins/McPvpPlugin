@@ -55,15 +55,36 @@ public class CommandHandler implements CommandExecutor {
                         return false;
                 }
             }
+            if (command.getName().equalsIgnoreCase("ping")) {
+                commandSender.sendMessage("pong");
+                return true;
+
+            }
+            if (command.getName().equalsIgnoreCase("players")) {
+                int onlinePlayers = Bukkit.getOnlinePlayers().size();
+                if (onlinePlayers == 1) {
+                    commandSender.sendMessage("There is currently " + onlinePlayers + " player online");
+                } else
+                    commandSender.sendMessage("There are currently " + onlinePlayers + " players online");
+            }
+
+            if (command.getName().equalsIgnoreCase("playerlist")) {
+                int onlinePlayers = Bukkit.getOnlinePlayers().size();
+                if (onlinePlayers == 0) {
+                    commandSender.sendMessage("Current online Players:\n" +
+                            "None");
+                } else
+                    commandSender.sendMessage("Current online Players:\n" + Bukkit.getOnlinePlayers());
+            }
+
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
-                ArrayList<Integer> positions = new ArrayList<>();
-                for (int i = positions.size(); i > 0;) {
+                ArrayList<Integer> positions;
+
+                for (int i = positions.size(); i < 0; ) {
                     positions = findSpawns(pvpArea1.getY1(), pvpArea1.getY2());
-                    commandSender.sendMessage("i");
                 }
-
-
+                commandSender.sendMessage("possible locations found: " + positions.size());
 
 
                 return true;
@@ -91,10 +112,10 @@ public class CommandHandler implements CommandExecutor {
         return spawnHeights;
     }
 
-    public Position GetRandomPosition(){
+    public Position GetRandomPosition() {
         int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
         int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
-        Position pos = new Position(positionX , positionZ);
+        Position pos = new Position(positionX, positionZ);
         return pos;
     }
 
