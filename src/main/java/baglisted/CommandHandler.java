@@ -57,18 +57,15 @@ public class CommandHandler implements CommandExecutor {
             }
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
-                int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
-                int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
-                ArrayList<Integer> possibleHeight = new ArrayList<Integer>();
-                Block b = world.getBlockAt(pvpArea1.getX1(), pvpArea1.getY1(), pvpArea1.getZ1());
-                commandSender.sendMessage(b.getType().toString() + " " + world.getName());
-                //yet to implement forloop to determine height.
-                for (int i = pvpArea1.getY1(); i <= pvpArea1.getY2(); i++) {
-                    Block spawnBlock = world.getBlockAt(positionX, i, positionZ);
-                    if (spawnBlock.getType().toString() != "AIR" && world.getBlockAt(positionX, i + 1, positionZ).getType().toString() == "AIR" && world.getBlockAt(positionX, i + 2, positionZ).getType().toString() == "AIR") {
-                        commandSender.sendMessage("JAWOEL");
-                    }
+                ArrayList<Integer> positions = new ArrayList<>();
+                for (int i = positions.size(); i > 0;) {
+                    positions = findSpawns(pvpArea1.getY1(), pvpArea1.getY2());
+                    commandSender.sendMessage("i");
                 }
+
+
+
+
                 return true;
             }
         } else {
@@ -76,6 +73,29 @@ public class CommandHandler implements CommandExecutor {
             return false;
         }
         return true;
+    }
+
+
+    public ArrayList<Integer> findSpawns(int posY1, int posY2) {
+        world = Bukkit.getServer().getWorlds().get(0);
+        Position randomPosition = GetRandomPosition();
+        ArrayList<Integer> spawnHeights = new ArrayList<Integer>();
+        for (int i = posY1; i < posY2; i++) {
+            Block b = world.getBlockAt(randomPosition.getX(), i, randomPosition.getZ());
+            if (b.getType().toString() != "AIR") {
+                if (world.getBlockAt(randomPosition.getX(), i + 1, randomPosition.getZ()).getType().toString() == "AIR" && world.getBlockAt(randomPosition.getX(), i + 2, randomPosition.getZ()).getType().toString() == "AIR") {
+                    spawnHeights.add(i);
+                }
+            }
+        }
+        return spawnHeights;
+    }
+
+    public Position GetRandomPosition(){
+        int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
+        int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
+        Position pos = new Position(positionX , positionZ);
+        return pos;
     }
 
 }
