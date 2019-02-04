@@ -55,6 +55,11 @@ public class CommandHandler implements CommandExecutor {
                         return false;
                 }
             }
+            if (command.getName().equalsIgnoreCase("ping")) {
+            	commandSender.sendMessage("pong");
+            	return true;
+            	
+            }
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
                 int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
