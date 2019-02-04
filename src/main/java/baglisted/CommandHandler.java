@@ -24,7 +24,7 @@ public class CommandHandler implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    Area pvpArea1 = new Area(-50, 49, 50, 9, 22, -7);
+    Area pvpArea1 = new Area(-50, 22, -7, 9, 49, 50);
     World world;
 
 
@@ -60,7 +60,15 @@ public class CommandHandler implements CommandExecutor {
                 int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
                 int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
                 ArrayList<Integer> possibleHeight = new ArrayList<Integer>();
+                Block b = world.getBlockAt(pvpArea1.getX1(), pvpArea1.getY1(), pvpArea1.getZ1());
+                commandSender.sendMessage(b.getType().toString() + " " + world.getName());
                 //yet to implement forloop to determine height.
+                for (int i = pvpArea1.getY1(); i <= pvpArea1.getY2(); i++) {
+                    Block spawnBlock = world.getBlockAt(positionX, i, positionZ);
+                    if (spawnBlock.getType().toString() != "AIR" && world.getBlockAt(positionX, i + 1, positionZ).getType().toString() == "AIR" && world.getBlockAt(positionX, i + 2, positionZ).getType().toString() == "AIR") {
+                        commandSender.sendMessage("JAWOEL");
+                    }
+                }
                 return true;
             }
         } else {
