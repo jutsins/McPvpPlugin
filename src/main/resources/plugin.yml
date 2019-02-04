@@ -2,4 +2,13 @@ name: Baglisted
 main: baglisted.Main
 version: 1.0 (alpha)
 commands:
+  gm:
+    description: sets your gamemode
+    usage: /<command> <gamemode>
 
+  spreadplayer:
+    description: teleports the player to a random position on a pvp map
+    usage: /<command>
+  ping:
+    description: replies with pong
+    usage: /<command>
