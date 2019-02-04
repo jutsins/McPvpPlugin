@@ -9,5 +9,6 @@ commands:
   spreadplayer:
     description: teleports the player to a random position on a pvp map
     usage: /<command>
-
-
+  ping:
+    description: replies with pong
+    usage: /<command>
