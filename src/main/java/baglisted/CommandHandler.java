@@ -1,11 +1,20 @@
 package baglisted;
 
 
+import javafx.geometry.Point3D;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CommandHandler implements CommandExecutor {
 
@@ -14,6 +23,10 @@ public class CommandHandler implements CommandExecutor {
     public CommandHandler(Main plugin) {
         this.plugin = plugin;
     }
+
+    Area pvpArea1 = new Area(-50, 22, -7, 9, 49, 50);
+    World world;
+
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
@@ -42,10 +55,27 @@ public class CommandHandler implements CommandExecutor {
                         return false;
                 }
             }
+            if (command.getName().equalsIgnoreCase("spreadPlayer")) {
+                world = Bukkit.getServer().getWorlds().get(0);
+                int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
+                int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
+                ArrayList<Integer> possibleHeight = new ArrayList<Integer>();
+                Block b = world.getBlockAt(pvpArea1.getX1(), pvpArea1.getY1(), pvpArea1.getZ1());
+                commandSender.sendMessage(b.getType().toString() + " " + world.getName());
+                //yet to implement forloop to determine height.
+                for (int i = pvpArea1.getY1(); i <= pvpArea1.getY2(); i++) {
+                    Block spawnBlock = world.getBlockAt(positionX, i, positionZ);
+                    if (spawnBlock.getType().toString() != "AIR" && world.getBlockAt(positionX, i + 1, positionZ).getType().toString() == "AIR" && world.getBlockAt(positionX, i + 2, positionZ).getType().toString() == "AIR") {
+                        commandSender.sendMessage("JAWOEL");
+                    }
+                }
+                return true;
+            }
         } else {
             commandSender.sendMessage("You have to be OP to use Baglisted commands.");
             return false;
         }
         return true;
     }
+
 }
