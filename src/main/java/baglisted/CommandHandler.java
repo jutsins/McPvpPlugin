@@ -1,12 +1,8 @@
 package baglisted;
 
 
-import javafx.geometry.Point3D;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.*;
 
-import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,8 +20,10 @@ public class CommandHandler implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    Area pvpArea1 = new Area(-50, 22, -7, 9, 49, 50);
+    Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
     World world;
+    int positionX;
+    int positionZ;
 
 
     @Override
@@ -79,14 +77,15 @@ public class CommandHandler implements CommandExecutor {
 
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
-                ArrayList<Integer> positions;
-
-                for (int i = positions.size(); i < 0; ) {
+                Player p = (Player) commandSender;
+                ArrayList<Integer> positions = new ArrayList<Integer>();
+                while (positions.size() == 0) {
                     positions = findSpawns(pvpArea1.getY1(), pvpArea1.getY2());
                 }
-                commandSender.sendMessage("possible locations found: " + positions.size());
-
-
+                int index = ThreadLocalRandom.current().nextInt(0, positions.size());
+                int height = positions.get(index);
+                Location l = new Location(world, positionX + 0.5, height + 1, positionZ + 0.5);
+                p.teleport(l);
                 return true;
             }
         } else {
@@ -113,8 +112,8 @@ public class CommandHandler implements CommandExecutor {
     }
 
     public Position GetRandomPosition() {
-        int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
-        int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
+        positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
+        positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
         Position pos = new Position(positionX, positionZ);
         return pos;
     }
