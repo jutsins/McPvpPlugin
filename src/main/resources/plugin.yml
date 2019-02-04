@@ -12,3 +12,9 @@ commands:
   ping:
     description: replies with pong
     usage: /<command>
+  players:
+    description: shows amount of players online
+    usage: /<command>
+  playerlist:
+    description: shows names of online players
+    usage: /<command>

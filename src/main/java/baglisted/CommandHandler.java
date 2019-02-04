@@ -60,6 +60,25 @@ public class CommandHandler implements CommandExecutor {
             	return true;
             	
             }
+            if (command.getName().equalsIgnoreCase("players")) {
+                int onlinePlayers = Bukkit.getOnlinePlayers().size();
+                if (onlinePlayers == 1 ){
+                    commandSender.sendMessage("There is currently " + onlinePlayers + " player online");
+                }
+                else
+                commandSender.sendMessage("There are currently " + onlinePlayers + " players online");
+            }
+
+            if (command.getName().equalsIgnoreCase("playerlist")) {
+                int onlinePlayers = Bukkit.getOnlinePlayers().size();
+                if (onlinePlayers == 0) {
+                    commandSender.sendMessage("Current online Players:\n" +
+                            "None");
+                }
+                else
+                    commandSender.sendMessage("Current online Players:\n" + Bukkit.getOnlinePlayers());
+            }
+
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
                 int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
@@ -76,7 +95,10 @@ public class CommandHandler implements CommandExecutor {
                 }
                 return true;
             }
-        } else {
+        }
+
+
+        else {
             commandSender.sendMessage("You have to be OP to use Baglisted commands.");
             return false;
         }
