@@ -42,6 +42,11 @@ public class CommandHandler implements CommandExecutor {
                         return false;
                 }
             }
+            if (command.getName().equalsIgnoreCase("ping")) {
+            	commandSender.sendMessage("pong");
+            	return true;
+            	
+            }
         } else {
             commandSender.sendMessage("You have to be OP to use Baglisted commands.");
             return false;

@@ -5,5 +5,7 @@ commands:
   gm:
     description: sets your gamemode
     usage: /<command>
-
+  ping:
+  	description: replies with pong
+  	usage: /<command>
 
