@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="BaglistedPlugin">
-    <output-path>$PROJECT_DIR$/..</output-path>
+    <output-path>$PROJECT_DIR$/../Mooie Uitkomst</output-path>
     <root id="archive" name="BaglistedPlugin.jar">
       <element id="module-output" name="BaglistedPlugin" />
     </root>

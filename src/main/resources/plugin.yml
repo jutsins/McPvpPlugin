@@ -3,9 +3,8 @@ main: baglisted.Main
 version: 1.0 (alpha)
 commands:
   gm:
-    description: sets your gamemode
+    description: changes player gamemodes
     usage: /<command>
   ping:
-  	description: replies with pong
-  	usage: /<command>
-
+    description: replies with pong
+    usage: /<command>
