@@ -78,20 +78,14 @@ public class CommandHandler implements CommandExecutor {
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
                 Player p = (Player) commandSender;
-
-                ArrayList<Position> spawnPositions = new ArrayList<>();
-                while (spawnPositions.size() == 0) {
-                    spawnPositions = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
-                }
-
+                ArrayList<Position> spawnPositions = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
                 int index = ThreadLocalRandom.current().nextInt(0, spawnPositions.size());
-
                 Position spawnLocation = spawnPositions.get(index);
-
                 Location l = new Location(world, spawnLocation.getX() + 0.5, spawnLocation.getY() + 1, spawnLocation.getZ() + 0.5);
                 p.teleport(l);
                 return true;
             }
+
         } else {
             commandSender.sendMessage("You have to be OP to use Baglisted commands.");
             return false;
