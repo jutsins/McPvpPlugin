@@ -53,14 +53,16 @@ public class Area {
 
     public ArrayList<Position> findSpawns(int posY1, int posY2, Area pvpArea) {
         world = Bukkit.getServer().getWorlds().get(0);
-        Position randomPosition = getRandomPosition(pvpArea);
         ArrayList<Position> spawnPositions = new ArrayList<>();
-        for (int i = posY1; i < posY2; i++) {
-            Block b = world.getBlockAt(randomPosition.getX(), i, randomPosition.getZ());
-            if (b.getType().toString() != "AIR") {
-                if (world.getBlockAt(randomPosition.getX(), i + 1, randomPosition.getZ()).getType().toString() == "AIR" && world.getBlockAt(randomPosition.getX(), i + 2, randomPosition.getZ()).getType().toString() == "AIR") {
-                    Position spawnPosition = new Position(randomPosition.getX(), i, randomPosition.getZ());
-                    spawnPositions.add(spawnPosition);
+        while (spawnPositions.size() == 0) {
+            Position randomPosition = getRandomPosition(pvpArea);
+            for (int i = posY1; i < posY2; i++) {
+                Block b = world.getBlockAt(randomPosition.getX(), i, randomPosition.getZ());
+                if (b.getType().toString() != "AIR" && b.getType().toString() != "FENCE") {
+                    if (world.getBlockAt(randomPosition.getX(), i + 1, randomPosition.getZ()).getType().toString() == "AIR" && world.getBlockAt(randomPosition.getX(), i + 2, randomPosition.getZ()).getType().toString() == "AIR") {
+                        Position spawnPosition = new Position(randomPosition.getX(), i, randomPosition.getZ());
+                        spawnPositions.add(spawnPosition);
+                    }
                 }
             }
         }
