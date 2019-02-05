@@ -1,9 +1,10 @@
 package baglisted;
 
 
-import org.bukkit.*;
-
-import org.bukkit.block.Block;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,13 +17,13 @@ public class CommandHandler implements CommandExecutor {
 
     private final Main plugin;
 
+
     public CommandHandler(Main plugin) {
         this.plugin = plugin;
     }
 
     Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
     World world;
-
 
 
     @Override
@@ -75,19 +76,19 @@ public class CommandHandler implements CommandExecutor {
             }
 
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
-
                 world = Bukkit.getServer().getWorlds().get(0);
-
                 Player p = (Player) commandSender;
 
-                ArrayList<Position> spawnPositions = new ArrayList<Position>();
-
+                ArrayList<Position> spawnPositions = new ArrayList<>();
                 while (spawnPositions.size() == 0) {
-                    spawnPositions = findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
+                    spawnPositions = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
                 }
+
                 int index = ThreadLocalRandom.current().nextInt(0, spawnPositions.size());
-                int height = spawnPositions.get(index).getY();
-                Location l = new Location(world, positionX + 0.5, height + 1, positionZ + 0.5);
+
+                Position spawnLocation = spawnPositions.get(index);
+
+                Location l = new Location(world, spawnLocation.getX() + 0.5, spawnLocation.getY() + 1, spawnLocation.getZ() + 0.5);
                 p.teleport(l);
                 return true;
             }
@@ -96,31 +97,6 @@ public class CommandHandler implements CommandExecutor {
             return false;
         }
         return true;
-    }
-
-
-    public ArrayList<Position> findSpawns(int posY1, int posY2, Area pvpArea) {
-        world = Bukkit.getServer().getWorlds().get(0);
-        Position randomPosition = GetRandomPosition(pvpArea);
-        ArrayList<Position> spawnPositions = new ArrayList<>();
-        //gets the y position
-        for (int i = posY1; i < posY2; i++) {
-            Block b = world.getBlockAt(randomPosition.getX(), i, randomPosition.getZ());
-            if (b.getType().toString() != "AIR") {
-                if (world.getBlockAt(randomPosition.getX(), i + 1, randomPosition.getZ()).getType().toString() == "AIR" && world.getBlockAt(randomPosition.getX(), i + 2, randomPosition.getZ()).getType().toString() == "AIR") {
-                    Position spawnPosition = new Position(randomPosition.getX(), i, randomPosition.getZ());
-                    spawnPositions.add(spawnPosition);
-                }
-            }
-        }
-        return spawnPositions;
-    }
-
-    public Position GetRandomPosition(Area pvpArea) {
-        int positionX = ThreadLocalRandom.current().nextInt(pvpArea1.getX1(), pvpArea1.getX2());
-        int positionZ = ThreadLocalRandom.current().nextInt(pvpArea1.getZ1(), pvpArea1.getZ2());
-        Position pos = new Position(positionX, positionZ);
-        return pos;
     }
 
 }
