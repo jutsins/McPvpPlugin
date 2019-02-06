@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.CommandBlock;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -77,7 +78,16 @@ public class CommandHandler implements CommandExecutor {
 
             if (command.getName().equalsIgnoreCase("spreadPlayer")) {
                 world = Bukkit.getServer().getWorlds().get(0);
-                Player p = (Player) commandSender;
+                Player p;
+                if (commandSender instanceof Player) {
+                    p = (Player) commandSender;
+                } else {
+                    CommandBlock commandBlock = (CommandBlock) commandSender;
+                    Location commandblockLocation = commandBlock.getLocation();
+
+                }
+
+
                 ArrayList<Position> spawnPositions = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
                 int index = ThreadLocalRandom.current().nextInt(0, spawnPositions.size());
                 Position spawnLocation = spawnPositions.get(index);
