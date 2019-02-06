@@ -2,7 +2,7 @@ package baglisted;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.CommandBlock;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -11,12 +11,20 @@ import java.util.Collection;
 public class utils {
     private static Collection<? extends Player> onlinePlayers;
 
-    public static Player getNearestPlayer(CommandBlock block, Bukkit bukkit) {
+    public static Player getNearestPlayer(Block block) {
         Location blockLocation = block.getLocation();
-        onlinePlayers = bukkit.getServer().getOnlinePlayers();
+        onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+        double nearestDistance = 0;
+        Player nearestPlayer = null;
         for (Player player: onlinePlayers) {
-            findDistance(player.getLocation(), blockLocation);
+            double distance = findDistance(player.getLocation(), blockLocation);
+            if (nearestDistance < distance){
+                nearestDistance = distance;
+                nearestPlayer = player;
+            }
+
         }
+        return nearestPlayer;
     }
 
     public static double getDifference(double int1, double int2) {
