@@ -84,7 +84,7 @@ public class CommandHandler implements CommandExecutor {
                 } else {
                     CommandBlock commandBlock = (CommandBlock) commandSender;
                     Location commandblockLocation = commandBlock.getLocation();
-
+                    utils.findNearestPlayer(commandBlock);
                 }
 
 
