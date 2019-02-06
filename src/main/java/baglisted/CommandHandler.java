@@ -61,13 +61,6 @@ public class CommandHandler implements CommandExecutor {
                 return true;
 
             }
-            if (command.getName().equalsIgnoreCase("players")) {
-                int onlinePlayers = Bukkit.getOnlinePlayers().size();
-                if (onlinePlayers == 1) {
-                    commandSender.sendMessage("There is currently " + onlinePlayers + " player online");
-                } else
-                    commandSender.sendMessage("There are currently " + onlinePlayers + " players online");
-            }
 
             if (command.getName().equalsIgnoreCase("playerlist")) {
                 int onlinePlayers = Bukkit.getOnlinePlayers().size();
