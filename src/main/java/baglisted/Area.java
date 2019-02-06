@@ -51,7 +51,7 @@ public class Area {
         return z2;
     }
 
-    public ArrayList<Position> findSpawns(int posY1, int posY2, Area pvpArea) {
+    public Position findSpawns(int posY1, int posY2, Area pvpArea) {
         world = Bukkit.getServer().getWorlds().get(0);
         ArrayList<Position> spawnPositions = new ArrayList<>();
         while (spawnPositions.size() == 0) {
@@ -66,7 +66,9 @@ public class Area {
                 }
             }
         }
-        return spawnPositions;
+        int index = ThreadLocalRandom.current().nextInt(0, spawnPositions.size());
+        Position spawnLocation = spawnPositions.get(index);
+        return spawnLocation;
     }
 
     public Position getRandomPosition(Area pvpArea) {

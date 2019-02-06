@@ -18,8 +18,9 @@ public class Main extends JavaPlugin {
             @Override
             public void run() {
                 chestFiller.fillChests();
+                System.out.println("DE RUN TASKTIMER IS GEBEURT!@#@#!!@");
             }
-        }.runTaskTimer(this, 0L, 120L); //1 sec == 20 ticks
+        }.runTaskTimer(this, 0L, 1200L); //1 sec == 20 ticks
     }
 
 
