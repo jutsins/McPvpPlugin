@@ -5,10 +5,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
+
 
 import java.util.ArrayList;
 
@@ -33,6 +31,7 @@ public class ChestItem {
         ItemStack harmPotionStack = new ItemStack(Material.POTION , 1);
         PotionMeta harmPotionMeta = (PotionMeta) harmPotionStack.getItemMeta();
         harmPotionMeta.setMainEffect(PotionEffectType.INCREASE_DAMAGE);
+        harmPotionStack.setItemMeta(harmPotionMeta);
 
         ItemStack appleStack = new ItemStack(Material.APPLE, 8);
 
@@ -44,10 +43,14 @@ public class ChestItem {
         ItemMeta bowMeta = bowStack.getItemMeta();
         bowMeta.setDisplayName("schieter3000");
         bowStack.setDurability((short) 385);
+        bowStack.setItemMeta(bowMeta);
 
         ItemStack hoeStack = new ItemStack(Material.STONE_HOE, 1);
         ItemMeta hoeMeta = hoeStack.getItemMeta();
-        hoeMeta.setDisplayName("je moeder");
+        hoeStack.setDurability((short) 132);
+        hoeMeta.addEnchant(Enchantment.KNOCKBACK, 50, true);
+        hoeMeta.setDisplayName("xD JE MOEDER XDDD");
+        hoeStack.setItemMeta(hoeMeta);
 
 
         ItemStack stewStack = new ItemStack(Material.MUSHROOM_SOUP, 1);
@@ -58,18 +61,20 @@ public class ChestItem {
 
         ItemStack snowBallStack = new ItemStack(Material.SNOW_BALL, 5);
         ItemMeta snowBallMeta = snowBallStack.getItemMeta();
-        snowBallMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 5, true);
         snowBallMeta.setDisplayName("Weggooi sneeuw");
+        snowBallStack.setItemMeta(snowBallMeta);
 
         ItemStack eggStack = new ItemStack(Material.EGG, 3);
         ItemMeta eggMeta = eggStack.getItemMeta();
         eggMeta.setDisplayName("Gekookt eitje");
         eggMeta.addEnchant(Enchantment.ARROW_FIRE, 1, true);
+        eggStack.setItemMeta(eggMeta);
 
         ItemStack stickStack = new ItemStack(Material.STICK, 1);
         ItemMeta stickMeta = stickStack.getItemMeta();
         stickMeta.setDisplayName("Oog prikker");
         stickMeta.addEnchant(Enchantment.DAMAGE_ALL, 3, true);
+        stickStack.setItemMeta(stickMeta);
 
 
         itemStacks.add(new ChestItem(beefStack, 5));
