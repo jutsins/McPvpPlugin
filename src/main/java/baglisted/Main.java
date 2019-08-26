@@ -22,9 +22,9 @@ public class Main extends JavaPlugin {
             @Override
             public void run() {
                 chestFiller.fillChests();
-                System.out.println("DE RUN TASKTIMER IS GEBEURT!@#@#!!@");
+                System.out.println("BaglistedPlugin has spawned a new lootcrate.");
             }
-        }.runTaskTimer(this, 0L, 120L); //1 sec == 20 ticks
+        }.runTaskTimer(this, 0L, 120000L); //1 sec == 20 ticks
     }
 
 
