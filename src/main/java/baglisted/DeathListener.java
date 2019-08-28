@@ -11,7 +11,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.Set;
 
-
+//TODO implement a penalty for dying by fall damage\
 public class DeathListener implements Listener {
     @EventHandler
     public void playerDeath(PlayerDeathEvent playerDeathEvent) {
@@ -23,7 +23,7 @@ public class DeathListener implements Listener {
                 if (team.hasPlayer(deadplayer)) {
                     for (String entry : scoreboard.getEntries()
                     ) {
-                        if (entry.equalsIgnoreCase("kills")){
+                        if (entry.equalsIgnoreCase("kills")) {
                             //subtract
                         }
                     }

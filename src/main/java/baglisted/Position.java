@@ -1,8 +1,5 @@
 package baglisted;
 
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 public class Position {
 
     public int getX() {
@@ -13,7 +10,9 @@ public class Position {
         return z;
     }
 
-    public int getY() { return y; }
+    public int getY() {
+        return y;
+    }
 
     private int x;
     private int y;
@@ -23,7 +22,8 @@ public class Position {
         this.x = x;
         this.z = z;
     }
-    public Position(int x, int y, int z){
+
+    public Position(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;

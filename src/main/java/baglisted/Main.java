@@ -67,48 +67,6 @@ public class Main extends JavaPlugin {
     }
 
 
-//        (.scheduleSyncRepeatingTask(this, new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("tyest");
-//            }
-//        }, 200, 200);
-
-
-    //double time = (1 / (long) Math.sqrt(utils.playersInArea()) * 50L)
-    //if (utils.playersInArea() != 0) {
-
-    //BukkitScheduler scheduler = getServer().getScheduler();
-//        if (utils.playersInArea() == 0) {
-//            new BukkitRunnable() {
-//                @Override
-//                public void run() {
-//                    if (utils.playersInArea() != 0) {
-//                        System.out.println("Players in area: " + utils.playersInArea());
-//                    } else {
-//                        System.out.println("No players found.");
-//                    }
-//                }
-//            }.runTaskTimer(this, 1000L, 200L); //1 sec == 20 ticks
-//        } else new BukkitRunnable() {
-//                @Override
-//                public void run() {
-//                    if (utils.playersInArea() != 0) {
-//                        System.out.println("Players in area: " + utils.playersInArea());
-//                    } else {
-//                        System.out.println("No players found.");
-//
-//                    }
-//                }
-//            }.runTaskTimer(this, 1000L,(1 / (long) Math.sqrt(utils.playersInArea()) * 100L)); //1 sec == 20 ticks
-//        }
-
-
-    //
-    //,1000L, (utils.playersInArea() == 0 ? 100L : (50L * (1 / (long) Math.sqrt(utils.playersInArea()))))); //1 sec == 20 ticks
-    //else System.out.println("No Players in area");
-    //}
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return commandHandler.onCommand(sender, command, label, args);

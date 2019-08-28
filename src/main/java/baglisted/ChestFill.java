@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.Enchantment;
@@ -12,14 +11,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 
-
-
 public class ChestFill {
     Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
     World world;
     ItemStack itemStack = new ItemStack(Material.BOW);
     ChestItem chestItem = new ChestItem();
-
 
 
     public String fillChests() {
@@ -33,13 +29,13 @@ public class ChestFill {
         b.setType(Material.CHEST);
         Chest chest = (Chest) b.getState();
         Inventory inv = chest.getBlockInventory();
-        for (ChestItem item:chestItem.getItemList()) {
+        for (ChestItem item : chestItem.getItemList()) {
             inv.addItem(item.itemStack);
         }
         System.out.println(l.getX() + " " + l.getY() + "  " + l.getZ());
 
         return null;
     }
-    //YET TO IMPLEMENT AN ARRAYLIST WITH POSSIBLE CHEST ITEMS + CHANCE THAT THEY'LL BE IN A CHEST.
+    //TODO IMPLEMENT AN ARRAYLIST WITH POSSIBLE CHEST ITEMS + CHANCE THAT THEY'LL BE IN A CHEST.
 }
 
