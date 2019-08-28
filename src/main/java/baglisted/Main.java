@@ -18,6 +18,7 @@ public class Main extends JavaPlugin {
 
     private final ScheduledExecutorService scheduler =
             Executors.newScheduledThreadPool(1);
+    int playerForChestCount = utils.playersInArea();
 
     @Override
     public void onEnable() {
@@ -37,36 +38,41 @@ public class Main extends JavaPlugin {
         };
 
 
-
-
-
         int playerCheckTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
                 if (utils.playersInArea() != 0) {
-                    System.out.println("Players in area: " + utils.playersInArea());
-                    taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 20);
+                    if (playerForChestCount != utils.playersInArea()) {
+                        chestSpawnTimerTask.cancelTask(taskId);
+                        playerForChestCount = utils.playersInArea();
+                        System.out.println("Players in area: " + utils.playersInArea());
+                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 20);
+                        System.out.println(taskId + " er zat  wel verschil");
 
+                    } else if (taskId != 0 && playerForChestCount == utils.playersInArea()) {
+                        chestSpawnTimerTask.cancelTask(taskId);
+                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 20);
+                        System.out.println("Players in area: " + utils.playersInArea());
+                        System.out.println(taskId + " er zat geen verschil");
+                    }
 
                 } else {
-                    if (taskId != 0)
-                     chestSpawnTimerTask.cancelTask(taskId);
+                    chestSpawnTimerTask.cancelTask(taskId);
+                    System.out.println(taskId + " cancelled ");
+                    playerForChestCount = 0;
+                    taskId = 0;
                 }
             }
         }, 20, 20);
     }
 
 
-
-
-        /*(.scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("tyest");
-            }
-        }, 200, 200);*/
-
-
+//        (.scheduleSyncRepeatingTask(this, new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("tyest");
+//            }
+//        }, 200, 200);
 
 
     //double time = (1 / (long) Math.sqrt(utils.playersInArea()) * 50L)
