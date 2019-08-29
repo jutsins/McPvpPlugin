@@ -33,9 +33,18 @@ public class Main extends JavaPlugin {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                System.out.println("yeet");
+                chestFiller.createChests();
+                System.out.println("yeet die chest");
             }
         };
+
+
+//        int chestCheckTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+//            @Override
+//            public void run() {
+//                chestFiller.removeChests();
+//            }
+//        }, 0L, 300L);
 
 
         int playerCheckTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -46,12 +55,10 @@ public class Main extends JavaPlugin {
                         chestSpawnTimerTask.cancelTask(taskId);
                         playerForChestCount = utils.playersInArea();
                         System.out.println("Players in area: " + utils.playersInArea());
-                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 20);
+                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 100);
                         System.out.println(taskId + " er zat  wel verschil");
 
                     } else if (taskId != 0 && playerForChestCount == utils.playersInArea()) {
-                        chestSpawnTimerTask.cancelTask(taskId);
-                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 20);
                         System.out.println("Players in area: " + utils.playersInArea());
                         System.out.println(taskId + " er zat geen verschil");
                     }
