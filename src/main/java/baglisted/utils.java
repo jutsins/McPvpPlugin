@@ -16,9 +16,9 @@ public class utils {
         onlinePlayers = Bukkit.getServer().getOnlinePlayers();
         double nearestDistance = 0;
         Player nearestPlayer = null;
-        for (Player player: onlinePlayers) {
+        for (Player player : onlinePlayers) {
             double distance = findDistance(player.getLocation(), blockLocation);
-            if (nearestDistance < distance){
+            if (nearestDistance < distance) {
                 nearestDistance = distance;
                 nearestPlayer = player;
             }
@@ -31,12 +31,16 @@ public class utils {
         return Math.abs((int1) - (int2));
     }
 
-    public static double findDistance(Location objectLocation, Location compareLocation){
+    public static double findDistance(Location objectLocation, Location compareLocation) {
         double differenceX = getDifference(objectLocation.getX(), compareLocation.getX());
         double differenceY = getDifference(objectLocation.getY(), compareLocation.getY());
         double differenceZ = getDifference(objectLocation.getZ(), compareLocation.getZ());
-        double distanceSquared = Math.pow(differenceX, 2) + Math.pow(differenceY,2) + Math.pow(differenceZ,2);
+        double distanceSquared = Math.pow(differenceX, 2) + Math.pow(differenceY, 2) + Math.pow(differenceZ, 2);
         double distance = Math.sqrt(distanceSquared);
         return distance;
+    }
+
+    public static int stringToInt(String number) {
+        return (int) Double.parseDouble(number);
     }
 }
