@@ -34,6 +34,7 @@ public class Main extends JavaPlugin {
             @Override
             public void run() {
                 chestFiller.createChests();
+//                chestFiller.addingChests();
                 System.out.println("yeet die chest");
             }
         };
