@@ -3,11 +3,17 @@ package baglisted;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.generator.InternalChunkGenerator;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -28,15 +34,31 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(deathListener, this);
         getLogger().info("onEnable invoked");
         ChestFill chestFiller = new ChestFill();
+        ChestDecay decay = new ChestDecay();
         Plugin plugin = this;
         BukkitScheduler chestSpawnTimerTask = Bukkit.getScheduler();
+        String xmlChestFilePath = "SpawnChest.xml";
+        File file = new File(xmlChestFilePath);
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 chestFiller.createChests();
-//                chestFiller.addingChests();
-                System.out.println("yeet die chest");
+//                System.out.println("yeet die chest");
+                try {
+                    DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+                    Document document = documentBuilder.parse(file);
+
+                    int chestDelete = document.getElementsByTagName("chest").getLength();
+                    System.out.println(chestDelete);
+                    for (int i = 0; i <= chestDelete; i++) {
+                        decay.timerChests(18);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
+
         };
 
 
