@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,13 +16,19 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ChestFill {
     Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
     World world;
     ItemStack itemStack = new ItemStack(Material.BOW);
     ChestItem chestItem = new ChestItem();
+
 
     public void createChests() {
         String xmlChestFilePath = "SpawnChest.xml";
@@ -33,20 +40,20 @@ public class ChestFill {
         int lp;
         System.out.println("Max Chests Count: " + (maxAmountChests));
         ArrayList testyB = new ArrayList<>();
-        try {
+        File file = new File(xmlChestFilePath);
+        if (file.exists()) {
+            try {
 
-            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
+                DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+                Document document = documentBuilder.parse(file);
 
-            Element chestlist = document.createElement("list");
-            document.appendChild(chestlist);
 
-            Position p = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2() + 1, pvpArea1);
-            Location l = new Location(world, p.getX(), p.getY() + 1, p.getZ());
-            String stringX = String.valueOf(l.getX());
-            String stringY = String.valueOf(l.getY());
-            String stringZ = String.valueOf(l.getZ());
+                Position p = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2() + 1, pvpArea1);
+                Location l = new Location(world, p.getX(), p.getY() + 1, p.getZ());
+                String stringX = String.valueOf(l.getX());
+                String stringY = String.valueOf(l.getY());
+                String stringZ = String.valueOf(l.getZ());
 //            Attr chestIdGrabber = document.createAttribute("id");
 //            String stringK = String.valueOf(1);
 //            chestIdGrabber.setValue(stringK);
@@ -66,52 +73,49 @@ public class ChestFill {
 //            Element x2 = document.createElement("x");
 //            coords2.appendChild(x2);
 //            x2.appendChild(document.createTextNode("-5.0"));
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(xmlChestFilePath);
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                DOMSource domSource = new DOMSource(document);
+                StreamResult streamResult = new StreamResult(xmlChestFilePath);
 
-            transformer.transform(domSource, streamResult);
+                transformer.transform(domSource, streamResult);
 
 
-            NodeList chestAmount = document.getElementsByTagName("chest");
-            int intChestAmount = chestAmount.getLength();
+                NodeList chestAmount = document.getElementsByTagName("chest");
+                int intChestAmount = chestAmount.getLength();
 //
 //            String attrValue = ((Element)chestAmount).getAttribute("id");
 //            System.out.println("RawrValue: " + attrValue);
-            System.out.println("This is the amount of chests on the map: " + intChestAmount);
-            if (maxAmountChests >= intChestAmount) {
+                System.out.println("This is the amount of chests on the map: " + intChestAmount);
+                if (intChestAmount < maxAmountChests) {
 
-                Element chest = document.createElement("chest");
-                chestlist.appendChild(chest);
+                    Element chest = document.createElement("chest");
+                    document.getElementsByTagName("list").item(0).appendChild(chest);
 
-                Attr chestIdGrabber = document.createAttribute("id");
+//                    Attr chestIdGrabber = document.createAttribute("id");
+//                    String stringK = String.valueOf(intChestAmount);
+//                    chestIdGrabber.setValue(stringK);
+//                    chest.setAttributeNode(chestIdGrabber);
 
-                String stringK = String.valueOf(intChestAmount);
+
+                    Element coords = document.createElement("coords");
+                    chest.appendChild(coords);
+
+                    Element x = document.createElement("x");
+                    coords.appendChild(x);
+                    x.appendChild(document.createTextNode(stringX));
+
+                    Element y = document.createElement("y");
+                    coords.appendChild(y);
+                    y.appendChild(document.createTextNode(stringY));
+
+                    Element z = document.createElement("z");
+                    coords.appendChild(z);
+                    z.appendChild(document.createTextNode(stringZ));
+
+                    System.out.println("Ik heb een chest gemaakt");
 
 
-                chestIdGrabber.setValue(stringK);
-                chest.setAttributeNode(chestIdGrabber);
-                Element coords = document.createElement("coords");
-                chest.appendChild(coords);
-
-                Element x = document.createElement("x");
-                coords.appendChild(x);
-                x.appendChild(document.createTextNode(stringX));
-
-                Element y = document.createElement("y");
-                coords.appendChild(y);
-                y.appendChild(document.createTextNode(stringY));
-
-                Element z = document.createElement("z");
-                coords.appendChild(z);
-                z.appendChild(document.createTextNode(stringZ));
-
-                Element decay = document.createElement("decay");
-                chest.appendChild(decay);
-                System.out.println("Ik heb een chest gemaakt");
-
-            }
 //                for (int s = 0; s < chestAmount.getLength(); s++) {
 //                    Node fstNode = chestAmount.item(s);
 //                    if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -127,90 +131,50 @@ public class ChestFill {
 ////                    System.out.println(testyC);
 //                    }
 //                }
-            else {
-                System.out.println("Max amount of chests spawned");
+//            System.out.println("Max amount of chests spawned");
 
-            }
-            Document doc1 = documentBuilder.parse(new File(xmlChestFilePath));
+
+                    Document doc1 = documentBuilder.parse(new File(xmlChestFilePath));
 //            System.out.println(doc1.getElementsByTagName("coords").item(0).getChildNodes().item(0).getTextContent());
 //            System.out.println(doc1.getElementsByTagName("coords").item(0).getChildNodes().item(1).getTextContent());
 //            System.out.println(doc1.getElementsByTagName("coords").item(0).getChildNodes().item(2).getTextContent());
 //            String readStringX = doc1.getElementsByTagName("coords").item(0).getChildNodes().item(0).getTextContent();
-            DOMSource domSource1 = new DOMSource(document);
+                    DOMSource domSource1 = new DOMSource(document);
 //            System.out.println(testyB);
 //            Element testyB = document.createElement("chest");
 //            chestlist.appendChild(chest);
-            StreamResult streamResult1 = new StreamResult(new File(xmlChestFilePath));
-            transformer.transform(domSource1, streamResult1);
+                    StreamResult streamResult1 = new StreamResult(new File(xmlChestFilePath));
+                    transformer.transform(domSource1, streamResult1);
 
 
-            System.out.println("Done editing XML File");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+                    System.out.println("Done editing XML File");
+                } else {
+                    System.out.println("Max amount of chests.");
+                }
 
-    public void addingChests() {
-        String xmlChestFilePath = "SpawnChest.xml";
-        Position p = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2() + 1, pvpArea1);
-        Location l = new Location(world, p.getX(), p.getY() + 1, p.getZ());
-        String stringX = String.valueOf(l.getX());
-        String stringY = String.valueOf(l.getY());
-        String stringZ = String.valueOf(l.getZ());
-        try {
-
-            File fXmlFile = new File(xmlChestFilePath);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document document = dBuilder.parse(fXmlFile);
-            NodeList chestAmount = document.getElementsByTagName("chest");
-            int intChestAmount = chestAmount.getLength();
-
-            System.out.println("This is the amount of chests on the map: " + intChestAmount);
-
-
-            if (intChestAmount != 3) {
-
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            try {
+                DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+                Document document = documentBuilder.newDocument();
                 Element chestlist = document.createElement("list");
                 document.appendChild(chestlist);
-
-                Element chest = document.createElement("chest");
-                chestlist.appendChild(chest);
-                Attr chestIdGrabber = document.createAttribute("id");
-                String stringK = String.valueOf(intChestAmount++);
-                chestIdGrabber.setValue(stringK);
-                chest.setAttributeNode(chestIdGrabber);
-
-                Element coords = document.createElement("coords");
-                chest.appendChild(coords);
-
-                Element x = document.createElement("x");
-                coords.appendChild(x);
-                x.appendChild(document.createTextNode(stringX));
-
-                Element y = document.createElement("y");
-                coords.appendChild(y);
-                y.appendChild(document.createTextNode(stringY));
-
-                Element z = document.createElement("z");
-                coords.appendChild(z);
-                z.appendChild(document.createTextNode(stringZ));
-
-                Element decay = document.createElement("decay");
-                chest.appendChild(decay);
-
-
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 DOMSource domSource = new DOMSource(document);
-                StreamResult streamResult = new StreamResult(xmlChestFilePath);
-
+                StreamResult streamResult = new StreamResult(file);
                 transformer.transform(domSource, streamResult);
+                System.out.println("Done creating XML File");
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch (Exception e) {
-            System.out.println(e);
+
         }
     }
+
 }
 
 
