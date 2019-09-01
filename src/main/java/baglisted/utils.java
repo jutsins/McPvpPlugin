@@ -62,7 +62,7 @@ public class utils {
      * @return The amount of players in the area
      */
     public static int playersInArea() {
-        Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
+        Area pvpArea1 = new Area(-29, 21, -5, 9, 49, 49);
         onlinePlayers = Bukkit.getServer().getOnlinePlayers();
         int playerCount = 0;
         for (Player player : onlinePlayers) {
@@ -75,5 +75,9 @@ public class utils {
 
         }
         return playerCount;
+    }
+
+    public static int stringToInt(String number) {
+        return (int) Double.parseDouble(number);
     }
 }

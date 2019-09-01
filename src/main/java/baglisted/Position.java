@@ -32,7 +32,7 @@ public class Position {
     @Override
     public String toString() {
         return "Position{" +
-                "taskId=" + x +
+                "x=" + x +
                 ", y=" + y +
                 ", z=" + z +
                 '}';
