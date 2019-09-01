@@ -2,19 +2,14 @@ package baglisted;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,7 +21,7 @@ public class ChestDecay {
         timer.schedule(new timerJ(), seconds *1000);
     }
 
-    class timerJ extends TimerTask {
+  public class timerJ extends TimerTask {
         String xmlChestFilePath = "SpawnChest.xml";
         File file = new File(xmlChestFilePath);
 
@@ -41,7 +36,7 @@ public class ChestDecay {
                     int chestToDelete = document.getElementsByTagName("chest").getLength();
                 if (chestToDelete == 0){
                     timer.cancel();
-                    System.out.println("No chests to delete.");
+                    System.out.println("No chests to decay.");
                 } else {
                     chestDelete.getParentNode().removeChild(chestDelete);
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -50,7 +45,7 @@ public class ChestDecay {
                     DOMSource domSource1 = new DOMSource(document);
                     StreamResult streamResult1 = new StreamResult(new File(xmlChestFilePath));
                     transformer.transform(domSource1, streamResult1);
-                    System.out.println("Deleted oldest chest.");
+                    System.out.println("A chest has decayed.");
                 }
             } catch (Exception e) {
                 System.out.println(e);
