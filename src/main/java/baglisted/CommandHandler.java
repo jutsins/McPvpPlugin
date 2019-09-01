@@ -6,15 +6,11 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.CommandBlock;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.command.*;
-
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class CommandHandler implements CommandExecutor {
 
@@ -77,13 +73,13 @@ public class CommandHandler implements CommandExecutor {
                 if (commandSender instanceof Player) {
                     p = (Player) commandSender;
                 }
-                if (commandSender instanceof BlockCommandSender){
+                if (commandSender instanceof BlockCommandSender) {
                     BlockCommandSender blockCommandSender = (BlockCommandSender) commandSender;
                     Block block = blockCommandSender.getBlock();
                     p = utils.getNearestPlayer(block);
                 }
 
-                Position spawnLocation= pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
+                Position spawnLocation = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2(), pvpArea1);
                 Location l = new Location(world, spawnLocation.getX() + 0.5, spawnLocation.getY() + 1, spawnLocation.getZ() + 0.5);
                 p.teleport(l);
                 return true;

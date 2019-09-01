@@ -1,8 +1,5 @@
 package baglisted;
 
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 public class Position {
 
     public int getX() {

@@ -7,7 +7,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffectType;
 
-
 import java.util.ArrayList;
 
 public class ChestItem {
@@ -19,6 +18,7 @@ public class ChestItem {
         this.itemStack = itemStack;
     }
 
+    //TODO Implement randomised chest content
     public ChestItem() {
 
     }
@@ -28,7 +28,7 @@ public class ChestItem {
 
         ItemStack beefStack = new ItemStack(Material.COOKED_BEEF, 2);
 
-        ItemStack harmPotionStack = new ItemStack(Material.POTION , 1);
+        ItemStack harmPotionStack = new ItemStack(Material.POTION, 1);
         PotionMeta harmPotionMeta = (PotionMeta) harmPotionStack.getItemMeta();
         harmPotionMeta.setMainEffect(PotionEffectType.INCREASE_DAMAGE);
         harmPotionStack.setItemMeta(harmPotionMeta);

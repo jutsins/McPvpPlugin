@@ -18,6 +18,9 @@ public class Area {
 
     World world;
 
+    /**
+     * The constructor for creating an Area
+     */
     public Area(int x1, int y1, int z1, int x2, int y2, int z2) {
         this.x1 = x1;
         this.y1 = y1;
@@ -51,6 +54,17 @@ public class Area {
         return z2;
     }
 
+    /**
+     * Looks for possible spawnlocations
+     * @param posY1
+     * the start height that the function will look for
+     * @param posY2
+     * The end height that the function will look for
+     * @param pvpArea
+     * The area to look for spawns in
+     * @return
+     * A spawn position
+     */
     public Position findSpawns(int posY1, int posY2, Area pvpArea) {
         world = Bukkit.getServer().getWorlds().get(0);
         ArrayList<Position> spawnPositions = new ArrayList<>();
