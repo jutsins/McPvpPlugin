@@ -35,10 +35,9 @@ public class Main extends JavaPlugin {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     int playerForChestCount = utils.playersInArea();
-    ChestDecay decay = new ChestDecay();
     ClearingAllChests clearChests = new ClearingAllChests();
     int decayingTimeInSeconds = 60;
-    int maxAmountChests = 5;
+    int maxAmountChests = 3;
     ChestFill chestFiller = new ChestFill();
     @Override
     public void onEnable() {
@@ -65,7 +64,7 @@ public class Main extends JavaPlugin {
                         chestSpawnTimerTask.cancelTask(taskId);
                         playerForChestCount = utils.playersInArea();
                         System.out.println("Players in area: " + utils.playersInArea());
-                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 100);
+                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 200);
                         System.out.println("There's a difference in player count on the field.");
 
                     } else if (taskId != 0 && playerForChestCount == utils.playersInArea()) {
@@ -102,8 +101,8 @@ public class Main extends JavaPlugin {
             int chestToDelete = document.getElementsByTagName("chest").getLength();
             System.out.println("Chests to delete: " + chestToDelete);
             System.out.println("Server shutting down. Clearing chests...");
-           clearChests.timerChests(1);
-            System.out.println("Succeeded.");
+           clearChests.timerChests();
+            System.out.println("Succeeded. Chests will get deleted in a few moments.");
 
 
         } catch (Exception e) {

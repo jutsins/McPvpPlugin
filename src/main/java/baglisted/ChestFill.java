@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.w3c.dom.*;
@@ -27,13 +28,14 @@ import java.util.TimerTask;
 public class ChestFill {
     Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
     World world;
-    ChestDecay decay = new ChestDecay();
+
+
     public void Chests(int maxAmountChests, int decayingTimeInSeconds) {
         String xmlChestFilePath = "SpawnChest.xml";
         File file = new File(xmlChestFilePath);
         world = Bukkit.getServer().getWorlds().get(0);
         System.out.println("Max Chests Count: " + (maxAmountChests));
-
+        ChestDecay decay = new ChestDecay();
         if (file.exists()) {
             try {
                 DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -60,6 +62,8 @@ public class ChestFill {
 
                 System.out.println("This is the amount of chests on the map: " + intChestAmount);
                 if (intChestAmount < maxAmountChests) {
+                    Block b = l.getBlock();
+                    b.setType(Material.EMERALD_BLOCK);
 
                     Element chest = document.createElement("chest");
                     document.getElementsByTagName("list").item(0).appendChild(chest);
@@ -79,18 +83,27 @@ public class ChestFill {
                     coords.appendChild(z);
                     z.appendChild(document.createTextNode(stringZ));
 
+                    String deleteChestX = document.getElementsByTagName("x").item(0).getTextContent();
+                    String deleteChestY = document.getElementsByTagName("y").item(0).getTextContent();
+                    String deleteChestZ = document.getElementsByTagName("z").item(0).getTextContent();
+                    int intDeleteChestX = (int) Double.parseDouble(deleteChestX);
+                    int intDeleteChestY = (int) Double.parseDouble(deleteChestY);
+                    int intDeleteChestZ = (int) Double.parseDouble(deleteChestZ);
+
+
                     Document doc1 = documentBuilder.parse(new File(xmlChestFilePath));
                     DOMSource domSource1 = new DOMSource(document);
 
                     StreamResult streamResult1 = new StreamResult(new File(xmlChestFilePath));
                     transformer.transform(domSource1, streamResult1);
                     int chestDelete = document.getElementsByTagName("chest").getLength();
-                    if (chestDelete != 0) {
-                        decay.timerChests(decayingTimeInSeconds);
-                        System.out.println(ConsoleColors.YELLOW + "A new chest has spawned!\nDecaying in " + decayingTimeInSeconds + " seconds..." + ConsoleColors.RESET);
-                    } else {
-                        System.out.println(ConsoleColors.RED + "No chests to delete - this is an error. Please check the code." + ConsoleColors.RESET);
-                    }
+                    System.out.println("Chests to delete: " + chestDelete);
+//                    if (chestDelete != 0) {
+                    decay.timerChests(decayingTimeInSeconds);
+                    System.out.println(ConsoleColors.YELLOW + "A new chest has spawned!\nDecaying in " + decayingTimeInSeconds + " seconds..." + ConsoleColors.RESET);
+//                    } else {
+//                        System.out.println(ConsoleColors.RED + "No chests to delete - this is an error. Please check the code." + ConsoleColors.RESET);
+//                    }
                 } else {
                     System.out.println("Max amount of chests. Waiting for chests to decay.");
                 }
