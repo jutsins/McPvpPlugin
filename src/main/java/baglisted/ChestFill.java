@@ -27,13 +27,12 @@ import java.util.TimerTask;
 public class ChestFill {
     Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
     World world;
-
+    ChestDecay decay = new ChestDecay();
     public void Chests(int maxAmountChests, int decayingTimeInSeconds) {
         String xmlChestFilePath = "SpawnChest.xml";
         File file = new File(xmlChestFilePath);
         world = Bukkit.getServer().getWorlds().get(0);
         System.out.println("Max Chests Count: " + (maxAmountChests));
-        ChestDecay decay = new ChestDecay();
 
         if (file.exists()) {
             try {

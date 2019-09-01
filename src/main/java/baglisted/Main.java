@@ -36,17 +36,17 @@ public class Main extends JavaPlugin {
 
     int playerForChestCount = utils.playersInArea();
     ChestDecay decay = new ChestDecay();
-    int decayingTimeInSeconds = 15;
-    int maxAmountChests = 3;
-
+    ClearingAllChests clearChests = new ClearingAllChests();
+    int decayingTimeInSeconds = 60;
+    int maxAmountChests = 5;
+    ChestFill chestFiller = new ChestFill();
     @Override
     public void onEnable() {
 
         PluginManager pluginManager = getServer().getPluginManager();
         DeathListener deathListener = new DeathListener();
         pluginManager.registerEvents(deathListener, this);
-        getLogger().info("onEnable invoked");
-        ChestFill chestFiller = new ChestFill();
+        getLogger().info("Baglisted has successfully started.");
         Plugin plugin = this;
         BukkitScheduler chestSpawnTimerTask = Bukkit.getScheduler();
         Runnable runnable = new Runnable() {
@@ -91,6 +91,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
         String xmlChestFilePath = "SpawnChest.xml";
         File file = new File(xmlChestFilePath);
         try {
@@ -101,15 +102,13 @@ public class Main extends JavaPlugin {
             int chestToDelete = document.getElementsByTagName("chest").getLength();
             System.out.println("Chests to delete: " + chestToDelete);
             System.out.println("Server shutting down. Clearing chests...");
-            for (int i = 0; i < chestToDelete ; i++) {
-                decay.timerChests(3);
-            }
+           clearChests.timerChests(1);
             System.out.println("Succeeded.");
 
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        getLogger().info("onDisable invoked");
+        getLogger().info("Baglisted has successfully shut down.");
     }
 }
