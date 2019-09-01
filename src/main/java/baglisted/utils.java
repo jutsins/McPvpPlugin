@@ -39,4 +39,19 @@ public class utils {
         double distance = Math.sqrt(distanceSquared);
         return distance;
     }
+    public static int playersInArea() {
+        Area pvpArea1 = new Area(-29, 21, -5, 9, 49, 49);
+        onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+        int playerCount = 0;
+        for (Player player : onlinePlayers) {
+            if (player.getLocation().getX() >= pvpArea1.getX1() &&
+                    player.getLocation().getX() <= pvpArea1.getX2() &&
+                    player.getLocation().getY() >= pvpArea1.getY1() &&
+                    player.getLocation().getY() <= pvpArea1.getY2()) {
+                playerCount++;
+            }
+
+        }
+        return playerCount;
+    }
 }
