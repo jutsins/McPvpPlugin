@@ -26,15 +26,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ChestFill {
-    Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
+    Area pvpArea1 = new Area(-29, 21, -5, 9, 49, 29);
     World world;
-
+    Area pvpOOR1 = new Area(-48, 29, -5, -27, 29, 3);
+    Area pvpOOR2 = new Area(-31, 31, -5, -20, 31, 9);
+    Area pvpOOR3 = new Area(0, 31, -5, 9, 26, 2);
+    Area pvpOOR4 = new Area(2, 27, 30, 9, 29, 34);
 
     public void Chests(int maxAmountChests, int decayingTimeInSeconds) {
         String xmlChestFilePath = "SpawnChest.xml";
         File file = new File(xmlChestFilePath);
         world = Bukkit.getServer().getWorlds().get(0);
-        System.out.println("Max Chests Count: " + (maxAmountChests));
+//        System.out.println("Max Chests Count: " + (maxAmountChests));
         ChestDecay decay = new ChestDecay();
         if (file.exists()) {
             try {
@@ -44,10 +47,17 @@ public class ChestFill {
 
 
                 Position p = pvpArea1.findSpawns(pvpArea1.getY1(), pvpArea1.getY2() + 1, pvpArea1);
-                Location l = new Location(world, p.getX(), p.getY() + 1, p.getZ());
-                String stringX = String.valueOf(l.getX());
-                String stringY = String.valueOf(l.getY());
-                String stringZ = String.valueOf(l.getZ());
+                Location loc = new Location(world, p.getX(), p.getY() + 1, p.getZ());
+                String stringX = String.valueOf(loc.getX());
+                String stringY = String.valueOf(loc.getY());
+                String stringZ = String.valueOf(loc.getZ());
+                if (utils.areaInArea(pvpArea1, pvpOOR3, p)) {
+
+                    System.out.println(ConsoleColors.CYAN + "Same coordinates" + ConsoleColors.RESET);
+                    Bukkit.broadcastMessage("These are the coordinates of a chest I made: " + stringX + " X, " + stringY + " Y, " + stringZ + " Z.");
+
+                }
+                System.out.println(ConsoleColors.GREEN + "These are the coordinates of a chest I made: " + stringX + " X, " + stringY + " Y, " + stringZ + " Z." + ConsoleColors.RESET);
 
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
@@ -62,8 +72,9 @@ public class ChestFill {
 
                 System.out.println("This is the amount of chests on the map: " + intChestAmount);
                 if (intChestAmount < maxAmountChests) {
-                    Block b = l.getBlock();
-                    b.setType(Material.EMERALD_BLOCK);
+                        Block b = loc.getBlock();
+
+                        b.setType(Material.EMERALD_BLOCK);
 
                     Element chest = document.createElement("chest");
                     document.getElementsByTagName("list").item(0).appendChild(chest);
@@ -97,7 +108,7 @@ public class ChestFill {
                     StreamResult streamResult1 = new StreamResult(new File(xmlChestFilePath));
                     transformer.transform(domSource1, streamResult1);
                     int chestDelete = document.getElementsByTagName("chest").getLength();
-                    System.out.println("Chests to delete: " + chestDelete);
+//                    System.out.println("Chests to delete: " + chestDelete);
 //                    if (chestDelete != 0) {
                     decay.timerChests(decayingTimeInSeconds);
                     System.out.println(ConsoleColors.YELLOW + "A new chest has spawned!\nDecaying in " + decayingTimeInSeconds + " seconds..." + ConsoleColors.RESET);
@@ -109,7 +120,7 @@ public class ChestFill {
                 }
 
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println(e.getStackTrace()[0].getLineNumber());
             }
         } else {
             try {

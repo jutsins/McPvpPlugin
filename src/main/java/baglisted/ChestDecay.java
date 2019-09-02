@@ -30,7 +30,6 @@ public class ChestDecay {
     public class timerJ extends TimerTask {
         String xmlChestFilePath = "SpawnChest.xml";
         File file = new File(xmlChestFilePath);
-        Area pvpArea1 = new Area(-50, 21, -7, 9, 49, 50);
         World world;
 
         @Override
@@ -63,7 +62,7 @@ public class ChestDecay {
                     Block bDecayedChest = locDecayedChest.getBlock();
                     if (bDecayedChest.getType() == Material.EMERALD_BLOCK) {
                         bDecayedChest.setType(Material.AIR);
-                        System.out.println("Replaced chest with Air");
+//                        System.out.println("Replaced chest with Air");
                     } else {
                         System.out.println("This wasn't a chest!");
                     }

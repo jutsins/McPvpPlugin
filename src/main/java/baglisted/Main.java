@@ -36,8 +36,8 @@ public class Main extends JavaPlugin {
 
     int playerForChestCount = utils.playersInArea();
     ClearingAllChests clearChests = new ClearingAllChests();
-    int decayingTimeInSeconds = 60;
-    int maxAmountChests = 3;
+    int decayingTimeInSeconds = 25;
+    int maxAmountChests = 5;
     ChestFill chestFiller = new ChestFill();
     @Override
     public void onEnable() {
@@ -63,13 +63,13 @@ public class Main extends JavaPlugin {
                     if (playerForChestCount != utils.playersInArea()) {
                         chestSpawnTimerTask.cancelTask(taskId);
                         playerForChestCount = utils.playersInArea();
-                        System.out.println("Players in area: " + utils.playersInArea());
-                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 200);
-                        System.out.println("There's a difference in player count on the field.");
+//                        System.out.println("Players in area: " + utils.playersInArea());
+                        taskId = chestSpawnTimerTask.scheduleSyncRepeatingTask(plugin, runnable, 20, 60);
+//                        System.out.println("There's a difference in player count on the field.");
 
                     } else if (taskId != 0 && playerForChestCount == utils.playersInArea()) {
-                        System.out.println("Players in area: " + utils.playersInArea());
-                        System.out.println("There was no difference in player count on the field.");
+//                        System.out.println("Players in area: " + utils.playersInArea());
+//                        System.out.println("There was no difference in player count on the field.");
                     }
 
                 } else {
