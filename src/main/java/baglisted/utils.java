@@ -4,7 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.World;
 
+import java.io.Console;
 import java.util.Collection;
 
 
@@ -62,7 +64,7 @@ public class utils {
      * @return The amount of players in the area
      */
     public static int playersInArea() {
-        Area pvpArea1 = new Area(-29, 21, -5, 9, 49, 49);
+        Area pvpArea1 = new Area(-49, 21, -5, 9, 49, 49);
         onlinePlayers = Bukkit.getServer().getOnlinePlayers();
         int playerCount = 0;
         for (Player player : onlinePlayers) {
@@ -80,4 +82,27 @@ public class utils {
     public static int stringToInt(String number) {
         return (int) Double.parseDouble(number);
     }
+
+    public static boolean areaInArea(Area areaOfficial, Area areaOutOfBounds, Position position) {
+        World world;
+        Area pvpAreaOfficial = new Area(-49, 21, -5, 9, 49, 49);
+        world = Bukkit.getServer().getWorlds().get(0);
+        Area pvpOOR1 = new Area(-48, 29, -5, -27, 29, 3);
+        Area pvpOOR2 = new Area(-31, 31, -5, -20, 31, 9);
+        Area pvpOOR3 = new Area(0, 31, -5, 9, 26, 2);
+        Area pvpOOR4 = new Area(2, 27, 30, 9, 29, 34);
+
+        if (position.getX() >= areaOutOfBounds.getX1() &&
+                position.getX() <= areaOutOfBounds.getX2() &&
+                position.getZ() >= areaOutOfBounds.getZ1() &&
+                position.getZ() <= areaOutOfBounds.getZ2()) {
+            return true;
+        }
+
+
+        return false;
+
+
+    }
+
 }
